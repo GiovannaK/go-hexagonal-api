@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"errors"
 
-	"github.com/HunCoding/golang-architecture/hexagonal-news-api/configuration/rest_err"
+	"github.com/GiovannaK/go-hexagonal-api.git/configuration/rest_err"
 	"github.com/gin-gonic/gin/binding"
 	"github.com/go-playground/locales/en"
 	ut "github.com/go-playground/universal-translator"

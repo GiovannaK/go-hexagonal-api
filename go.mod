@@ -1,4 +1,4 @@
-module github.com/HunCoding/golang-architecture/hexagonal-news-api
+module github.com/GiovannaK/go-hexagonal-api.git
 
 go 1.20
 
