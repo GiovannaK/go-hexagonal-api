@@ -1,7 +1,11 @@
 package controller
 
 import (
+	"fmt"
+	"net/http"
+
 	"github.com/GiovannaK/go-hexagonal-api.git/adapter/input/model/request"
+	"github.com/GiovannaK/go-hexagonal-api.git/application/domain"
 	"github.com/GiovannaK/go-hexagonal-api.git/application/port/input"
 	"github.com/GiovannaK/go-hexagonal-api.git/configuration/logger"
 	"github.com/GiovannaK/go-hexagonal-api.git/configuration/validation"
@@ -19,7 +23,6 @@ func NewNewsController(
 }
 
 func (nc *newsController) GetNews(c *gin.Context) {
-	//q=tesla&from=2021-08-01&to=2021-08-10&apiKey=""
 
 	logger.Info("GetNews controller called")
 	newsRequest := request.NewsRequest{}
@@ -31,12 +34,19 @@ func (nc *newsController) GetNews(c *gin.Context) {
 		return
 	}
 
-	newsDomain, err := nc.newsUseCase.GetNewsService(newsRequest.Subject, newsRequest.From)
+	fmt.Println("Parsed From date: ", newsRequest.From)
+
+	newsDomain := domain.NewsReqDomain{
+		Subject: newsRequest.Subject,
+		From:    newsRequest.From.Format("2006-01-02"),                           
+	}
+
+	newsResponseDomain, err := nc.newsUseCase.GetNewsService(newsDomain)
 
 	if err != nil {
 		c.JSON(err.Code, err)
 		return
 	}
 
-	c.JSON(200, newsDomain)
+	c.JSON(http.StatusOK, newsResponseDomain)
 }
